@@ -1,8 +1,33 @@
-const form=document.getElementById("registration-form")
+const form=document.getElementById("register-form")
 const username=document.getElementById("username")
 const email=document.getElementById("email")
 const password=document.getElementById("password")
-const confirmPassword=document.getElementById("confirm_password")
+const confirmPassword=document.getElementById("Confirm Password")
+
+
+function formatFieldName(input)
+{
+    return input.id.charAt(0).toUpperCase()+input.id.slice(1);
+}
+
+function checkLength(input,min,max)
+{
+    if(input.value.length<min)
+    {
+        showError(input,formatFieldName(input)+" must be at least "+min+" characters.");
+        return false;
+    }
+    else if(input.value.length>max)
+    {
+        showError(input,formatFieldName(input)+" must be less than "+max+" characters");
+        return false;
+    }
+    else
+    {
+        showSuccess(input);
+        return true;
+    }
+}
 
 form.addEventListener("submit",function(e)
 {
@@ -36,7 +61,7 @@ function checkRequired(inputArray)
     inputArray.forEach((input)=>{
         if(input.value.trim()==="")
         {
-            showError(input,'${formatFieldName(input)} is required');
+            showError(input,formatFieldName(input)+" is required");
             isValid=false;
         }
         else
@@ -47,33 +72,12 @@ function checkRequired(inputArray)
     return isValid;
 }
 
-function checkLength(input,min,max)
-{
-    if(input.value.length<min)
-    {
-        showError(input,'${formatFieldName(input)} must be at least ${min} characters.');
-        return false;
-    }
-    else if(input.value.length>max)
-    {
-        showError(input,'${formatFieldName(input)} must be less than ${max} characters');
-        return false;
-    }
-    else
-    {
-        showSuccess(input);
-        return true;
-    }
-}
 
-function formatFieldName(input)
-{
-    return input.id.charAt(0).toUpperCase()+input.id.slice(1);
-}
+
 
 function checkEmail(email)
 {
-    const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex=/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     if(emailRegex.test(email.value.trim()))
     {
         showSuccess(email);
